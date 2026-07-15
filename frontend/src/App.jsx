@@ -95,11 +95,12 @@ export default function App() {
           apiFetch('/api/logs'),
           apiFetch('/api/settings')
         ]);
-        setTargets(fetchedTargets);
-        setLogs(fetchedLogs);
-        setSettings(fetchedSettings);
-        setTempSelfPingEnabled(fetchedSettings.selfPingEnabled);
-        setTempSelfPingUrl(fetchedSettings.selfPingUrl);
+        setTargets(fetchedTargets || []);
+        setLogs(fetchedLogs || []);
+        const safeSettings = fetchedSettings || { selfPingEnabled: false, selfPingUrl: '', maxLogsCount: 200 };
+        setSettings(safeSettings);
+        setTempSelfPingEnabled(safeSettings.selfPingEnabled);
+        setTempSelfPingUrl(safeSettings.selfPingUrl);
       } catch (err) {
         console.error('Failed to load startup data:', err);
       } finally {
@@ -131,7 +132,7 @@ export default function App() {
         if (type === 'ping') {
           setLogs(prevLogs => {
             const newLogs = [data, ...prevLogs];
-            const maxLogs = settings.maxLogsCount || 200;
+            const maxLogs = settings?.maxLogsCount || 200;
             return newLogs.slice(0, maxLogs);
           });
         } else if (type === 'self-ping') {
@@ -149,7 +150,7 @@ export default function App() {
       eventSource.close();
       setSseConnected(false);
     };
-  }, [token, settings.maxLogsCount]);
+  }, [token, settings?.maxLogsCount]);
 
   // Target Actions
   const handleAddTarget = async (newTargetData) => {
