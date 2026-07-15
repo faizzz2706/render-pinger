@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Activity, Lock, Mail, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Activity, Lock, Mail, AlertTriangle, ArrowRight, RefreshCw } from 'lucide-react';
 
 export default function Auth({ onLoginSuccess }) {
   const [isSignUp, setIsSignUp] = useState(false);
