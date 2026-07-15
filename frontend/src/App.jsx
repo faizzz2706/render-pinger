@@ -440,15 +440,6 @@ export default function App() {
                       </p>
                     </div>
 
-                    <div className="space-y-1">
-                      <span className="flex items-center gap-1 text-slate-800 dark:text-slate-200 font-semibold">
-                        <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                        3. External Cron Jobs
-                      </span>
-                      <p>
-                        Register a free trigger on <a href="https://cron-job.org" target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">cron-job.org</a> or <a href="https://uptimerobot.com" target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">UptimeRobot</a> to ping this Pinger every 10 minutes.
-                      </p>
-                    </div>
                   </div>
                 </div>
 

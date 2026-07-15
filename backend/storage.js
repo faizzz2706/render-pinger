@@ -273,7 +273,7 @@ export async function getSettings(userId) {
   const defaultSettings = {
     user_id: userId,
     self_ping_enabled: false,
-    self_ping_url: process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || '',
+    self_ping_url: process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || 'https://render-pinger-knpi.onrender.com/',
     max_logs_count: 200
   };
 
@@ -299,7 +299,7 @@ export async function getSettings(userId) {
     }
 
     // Force update URL if environment has it but database doesn't
-    const resolvedUrl = data.self_ping_url || process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || '';
+    const resolvedUrl = data.self_ping_url || process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || 'https://render-pinger-knpi.onrender.com/';
     if (data.self_ping_enabled && !data.self_ping_url && resolvedUrl) {
       await supabase.from('settings').update({ self_ping_url: resolvedUrl }).eq('user_id', userId);
       data.self_ping_url = resolvedUrl;
@@ -318,7 +318,7 @@ export async function updateSettings(updates, userId) {
   const dbUpdates = {};
   if (updates.selfPingEnabled !== undefined) {
     dbUpdates.self_ping_enabled = updates.selfPingEnabled;
-    dbUpdates.self_ping_url = process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || '';
+    dbUpdates.self_ping_url = process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || 'https://render-pinger-knpi.onrender.com/';
   }
   if (updates.maxLogsCount !== undefined) dbUpdates.max_logs_count = parseInt(updates.maxLogsCount, 10);
 
