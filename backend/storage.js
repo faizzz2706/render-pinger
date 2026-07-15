@@ -273,7 +273,7 @@ export async function getSettings(userId) {
   const defaultSettings = {
     user_id: userId,
     self_ping_enabled: false,
-    self_ping_url: '',
+    self_ping_url: process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || '',
     max_logs_count: 200
   };
 
@@ -298,6 +298,13 @@ export async function getSettings(userId) {
       return mapSettingsToFrontend(seeded);
     }
 
+    // Force update URL if environment has it but database doesn't
+    const resolvedUrl = data.self_ping_url || process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || '';
+    if (data.self_ping_enabled && !data.self_ping_url && resolvedUrl) {
+      await supabase.from('settings').update({ self_ping_url: resolvedUrl }).eq('user_id', userId);
+      data.self_ping_url = resolvedUrl;
+    }
+
     return mapSettingsToFrontend(data);
   } catch (err) {
     console.error(`[Supabase] Error loading settings for user ${userId}:`, err.message);
@@ -309,8 +316,10 @@ export async function updateSettings(updates, userId) {
   if (!userId) throw new Error('Authentication required to update settings');
 
   const dbUpdates = {};
-  if (updates.selfPingEnabled !== undefined) dbUpdates.self_ping_enabled = updates.selfPingEnabled;
-  if (updates.selfPingUrl !== undefined) dbUpdates.self_ping_url = updates.selfPingUrl;
+  if (updates.selfPingEnabled !== undefined) {
+    dbUpdates.self_ping_enabled = updates.selfPingEnabled;
+    dbUpdates.self_ping_url = process.env.RENDER_EXTERNAL_URL || process.env.SELF_PING_URL || '';
+  }
   if (updates.maxLogsCount !== undefined) dbUpdates.max_logs_count = parseInt(updates.maxLogsCount, 10);
 
   try {

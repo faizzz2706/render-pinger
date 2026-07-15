@@ -388,20 +388,15 @@ export default function App() {
                       </label>
                     </div>
 
-                    {/* URL */}
+                    {/* URL (Auto-Detected / Read-Only) */}
                     {tempSelfPingEnabled && (
-                      <div className="space-y-2">
-                        <label className="block text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">Self Deployed URL</label>
-                        <input
-                          type="url"
-                          value={tempSelfPingUrl}
-                          onChange={(e) => setTempSelfPingUrl(e.target.value)}
-                          placeholder="https://render-pinger.onrender.com"
-                          required={tempSelfPingEnabled}
-                          className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 focus:border-indigo-500 dark:focus:border-indigo-500 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none transition-colors"
-                        />
-                        <p className="text-[10px] text-slate-500 dark:text-slate-400 italic">
-                          Provide the absolute https URL where this pinger application is running (e.g. Render site address).
+                      <div className="space-y-1.5 bg-slate-50 dark:bg-slate-800/60 p-3.5 border border-slate-200 dark:border-slate-700 rounded-lg text-xs">
+                        <span className="block font-semibold text-slate-700 dark:text-slate-300">Auto-Detected Keep-Alive URL</span>
+                        <span className="block text-indigo-600 dark:text-indigo-400 font-mono break-all font-semibold">
+                          {tempSelfPingUrl || 'Detecting hosting domain... (configure SELF_PING_URL or RENDER_EXTERNAL_URL in environment)'}
+                        </span>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 italic pt-1">
+                          This URL is loaded automatically from environment configurations to prevent public tampering.
                         </p>
                       </div>
                     )}
