@@ -1,0 +1,17 @@
+{
+  "name": "pinger-backend",
+  "version": "1.0.0",
+  "description": "Keep-alive pinging service backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.110.6",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2"
+  }
+}
